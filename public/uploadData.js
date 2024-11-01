@@ -36,30 +36,46 @@ async function createCards() {
   try {
     const container = document.getElementById("qa-container");
     container.innerHTML = "";
-    let questionNumber = 1;
 
+    // Get all questions from questions.js
+    const questionsArray = Object.entries(questions).map(
+      ([question, data], index) => ({
+        question,
+        ...data,
+        originalIndex: index, // Store original position
+      })
+    );
+
+    // Get questions from Firebase
     const snapshot = await db.collection("questions").get();
-    const questionsData = [];
+    const firestoreQuestions = [];
 
     snapshot.forEach((doc) => {
-      questionsData.push({
+      const data = doc.data();
+      // Find matching question from questions.js to get original index
+      const originalQuestion = questionsArray.find(
+        (q) => q.question === data.question
+      );
+      firestoreQuestions.push({
         id: doc.id,
-        ...doc.data(),
+        ...data,
+        originalIndex: originalQuestion
+          ? originalQuestion.originalIndex
+          : Number.MAX_SAFE_INTEGER,
       });
     });
 
-    questionsData.sort((a, b) => {
-      return (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0);
-    });
+    // Sort by original index
+    firestoreQuestions.sort((a, b) => a.originalIndex - b.originalIndex);
 
-    questionsData.forEach((data) => {
+    // Create cards in sorted order
+    firestoreQuestions.forEach((data, index) => {
       const card = document.createElement("div");
       card.className = "col-md-6";
 
       const formattedEnAnswer = boldBracketedText(data.en);
       const formattedMnAnswer = boldBracketedText(data.mn);
 
-      // Protected icon нэмэх
       const protectedIcon = data.isProtected
         ? '<i class="fas fa-lock text-warning ms-2" title="Protected Question"></i>'
         : "";
@@ -69,14 +85,18 @@ async function createCards() {
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <h5 class="card-title question">
-                ${questionNumber}. ${data.question}
+                ${index + 1}. ${data.question}
                 ${protectedIcon}
               </h5>
               <div class="btn-group">
-                <button class="btn btn-outline-secondary btn-sm" onclick="editQuestion('${data.id}')" title="Edit">
+                <button class="btn btn-outline-secondary btn-sm" onclick="editQuestion('${
+                  data.id
+                }')" title="Edit">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-outline-danger btn-sm" onclick="deleteQuestion('${data.id}')" title="Delete">
+                <button class="btn btn-outline-danger btn-sm" onclick="deleteQuestion('${
+                  data.id
+                }')" title="Delete">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -95,7 +115,6 @@ async function createCards() {
       `;
 
       container.appendChild(card);
-      questionNumber++;
     });
   } catch (error) {
     console.error("Error creating cards:", error);

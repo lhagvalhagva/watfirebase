@@ -1,87 +1,465 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <title>WAT INTERVIEW</title>
+    <!-- Favicon using emoji -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇺🇸</text></svg>"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background-color: #f8f9fa;
+        padding: 20px;
+        padding-top: 130px;
+      }
+      strong {
+        color: #0d6efd;
+        font-weight: 600;
+      }
+      .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+      }
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.0.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.0.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.0.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+      .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+      }
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
+      .card {
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .row > [class*="col-"] {
+        padding-bottom: 20px;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+      .question {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1.1rem;
+      }
+      .answer {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        border-left: 4px solid #0d6efd;
+      }
+      .language-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .badge {
+        font-size: 0.9rem;
+        padding: 0.35em 0.65em;
+        font-weight: 500;
+      }
+      .language-toggle .btn-danger {
+        margin-top: 10px;
+        padding: 0.5rem 2rem;
+      }
+      .btn-group {
+        margin-bottom: 10px;
+      }
+      @media (max-width: 768px) {
+        .card {
+          margin-bottom: 10px;
+        }
+        .question {
+          font-size: 4rem;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+        body {
+          padding-top: 150px;
+        }
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+      }
+
+      /* Modal дээрх товчнуудын загвар */
+      .modal .btn-primary,
+      .modal .btn-secondary {
+        padding: 0.5rem 1.5rem;
+      }
+
+      /* Card дээрх засах/устгах товчнуудын загвар */
+      .card .btn-outline-secondary,
+      .card .btn-outline-danger {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
       }
     </style>
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <!-- Header buttons -->
+    <div class="text-center mb-4">
+      <h1>Wat Interview Questions</h1>
+      <button
+        class="btn btn-primary me-2"
+        data-bs-toggle="modal"
+        data-bs-target="#addQuestionModal"
+      >
+        Add Question
+      </button>
+      <!-- Админ хэсэгт нэмэх -->
+      <!-- <button
+        class="btn btn-warning"
+        onclick="uploadQuestionsToFirebase()"
+        title="Upload all questions to database"
+      >
+        <i class="fas fa-upload"></i> Upload Questions
+      </button> -->
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
+    <!-- Language toggle buttons -->
+    <div class="language-toggle text-center mb-4">
+      <div class="btn-group">
+        <button
+          class="btn btn-outline-primary"
+          onclick="toggleLanguage('en-answer')"
+        >
+          English
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          onclick="toggleLanguage('mn-answer')"
+        >
+          Монгол
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          onclick="toggleLanguage('both')"
+        >
+          Both
+        </button>
+        <button class="btn btn-secondary" onclick="hideAllAnswers()">
+          Hide All Answers
+        </button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="qa-container" class="row">
+        <!-- Questions will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Add Question Modal -->
+    <div class="modal fade" id="addQuestionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Question</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addQuestionForm">
+              <div class="mb-3">
+                <label class="form-label">Question:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="newQuestionInput"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">English Answer:</label>
+                <textarea
+                  class="form-control"
+                  id="newEnInput"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Mongolian Answer:</label>
+                <textarea
+                  class="form-control"
+                  id="newMnInput"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="addNewQuestion()"
+            >
+              Add Question
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Question Modal -->
+    <div class="modal fade" id="editQuestionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Question</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editQuestionForm">
+              <div class="mb-3">
+                <label class="form-label">Question:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editQuestionInput"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">English Answer:</label>
+                <textarea
+                  class="form-control"
+                  id="editEnInput"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Mongolian Answer:</label>
+                <textarea
+                  class="form-control"
+                  id="editMnInput"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveEditedQuestion()"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add data.js script -->
+    <!-- <script src="data.js"></script> -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+      function boldBracketedText(text) {
+        return text.replace(/\[(.*?)\]/g, "<strong>[$1]</strong>");
+      }
 
+      function hideAllAnswers() {
+        const answers = document.getElementsByClassName("answer");
+        for (let answer of answers) {
+          answer.style.display = "none";
+        }
+
+        // Зөвхөн Answer товчуудын текстийг өөрчлөх
+        const toggleBtns = document.querySelectorAll(
+          ".card .btn-outline-primary, .card .btn-primary"
+        );
+        toggleBtns.forEach((btn) => {
+          if (btn.textContent.includes("Answer")) {
+            btn.textContent = "Show Answer";
+            btn.classList.replace("btn-primary", "btn-outline-primary");
+          }
+        });
+
+        // Language toggle товчуудыг outline болгох
+        const langButtons = document.querySelectorAll(".language-toggle .btn");
+        langButtons.forEach((btn) => {
+          btn.classList.add("btn-outline-primary");
+          btn.classList.remove("btn-primary");
+        });
+      }
+
+      function toggleAnswer(button) {
+        const card = button.closest(".card-body");
+        const answers = card.getElementsByClassName("answer");
+        const isHidden =
+          answers[0].style.display === "none" || !answers[0].style.display;
+
+        for (let answer of answers) {
+          answer.style.display = isHidden ? "block" : "none";
+        }
+
+        // Зөвхөн Show/Hide Answer товчны текстийг өөрчлөх
+        if (isHidden) {
+          button.textContent = "Hide Answer";
+          button.classList.replace("btn-outline-primary", "btn-primary");
+        } else {
+          button.textContent = "Show Answer";
+          button.classList.replace("btn-primary", "btn-outline-primary");
+        }
+      }
+
+      function toggleLanguage(lang) {
+        const buttons = document.querySelectorAll(".language-toggle .btn");
+        buttons.forEach((btn) => {
+          if (
+            btn.textContent.toLowerCase().includes(lang) ||
+            (lang === "both" && btn.textContent === "Both")
+          ) {
+            btn.classList.add("btn-primary");
+            btn.classList.remove("btn-outline-primary");
+          } else {
+            btn.classList.add("btn-outline-primary");
+            btn.classList.remove("btn-primary");
+          }
+        });
+
+        const answers = document.getElementsByClassName("answer");
+        for (let answer of answers) {
+          if (lang === "both" || answer.classList.contains(lang)) {
+            answer.style.display = "block";
+          } else {
+            answer.style.display = "none";
+          }
+        }
+
+        // Асуулт бүрийн Show/Hide товчны текстийг шинэчлэх
+        const toggleBtns = document.querySelectorAll(
+          ".card .btn-outline-primary, .card .btn-primary"
+        );
+        toggleBtns.forEach((btn) => {
+          if (btn.textContent.includes("Answer")) {
+            // Зөвхөн Answer товчуудыг шинэчлэх
+            if (lang === "both" || answers[0].style.display === "block") {
+              btn.textContent = "Hide Answer";
+              btn.classList.replace("btn-outline-primary", "btn-primary");
+            } else {
+              btn.textContent = "Show Answer";
+              btn.classList.replace("btn-primary", "btn-outline-primary");
+            }
+          }
+        });
+      }
+
+      // DOM ачаалагдсаны дараа createCards дуудах
+      document.addEventListener("DOMContentLoaded", function () {
+        createCards();
+      });
+    </script>
+
+    <!-- Firebase SDK - хамгийн эхэнд байрлуулах -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <!-- Firebase тохиргоо -->
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyD5NiYHI_2xPQvaOna_mwqCfmdDXFKOBhU",
+        authDomain: "watinterview-34f9c.firebaseapp.com",
+        projectId: "watinterview-34f9c",
+        storageBucket: "watinterview-34f9c.firebasestorage.app",
+        messagingSenderId: "255575163715",
+        appId: "1:255575163715:web:17b0fdc071b6e1baf2e5f6",
+        measurementId: "G-YNX8QW25DH",
+      };
+
+      // Firebase initialize
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+    </script>
+
+    <!-- Questions data -->
+    <script type="module" src="./questions.js"></script>
+
+    <!-- Upload script -->
+    <script type="module" src="./uploadData.js"></script>
+
+    <!-- Main script -->
+    <script type="module">
+      import {
+        initializeDatabase,
+        createCards,
+        editQuestion,
+        deleteQuestion,
+        addNewQuestion,
+      } from "./uploadData.js";
+
+      // Make functions available globally
+      window.editQuestion = editQuestion;
+      window.deleteQuestion = deleteQuestion;
+      window.addNewQuestion = addNewQuestion;
+
+      // Initialize when DOM is loaded
+      document.addEventListener("DOMContentLoaded", async () => {
         try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+          await createCards();
+        } catch (error) {
+          console.error("Initialization error:", error);
         }
       });
     </script>
