@@ -7,7 +7,7 @@ const db = firebase.firestore();
 const SUPER_ADMIN_EMAIL = "your_email@gmail.com"; // Энд өөрийн email-г бичнэ
 
 // Зөвшөөрөгдсөн email хаягууд
-const AUTHORIZED_EMAILS = ["teacher", "Bagshxd"]; // Энд зөвшөөрөгдсөн email-үүдээ бичнэ
+const AUTHORIZED_EMAILS = ["teacher", "Bagshxd", "bibna"]; // Энд зөвшөөрөгдсөн email-үүдээ бичнэ
 
 // Initialize database
 async function initializeDatabase() {
