@@ -84,9 +84,12 @@ async function createCards() {
         <div class="card h-100">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title question">
+              <h5 class="card-title question selectable">
                 ${index + 1}. ${data.question}
                 ${protectedIcon}
+                <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
+                  <i class="fas fa-volume-up"></i>
+                </button>
               </h5>
               <div class="btn-group">
                 <button class="btn btn-outline-secondary btn-sm" onclick="editQuestion('${
@@ -104,10 +107,13 @@ async function createCards() {
             <button class="btn btn-outline-primary mb-2" onclick="toggleAnswer(this)">
               Show Answer
             </button>
-            <div class="answer en-answer" style="display: none;">
+            <div class="answer en-answer selectable" style="display: none;" data-lang="en">
               ${formattedEnAnswer}
+              <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'answer')" title="Listen">
+                <i class="fas fa-volume-up"></i>
+              </button>
             </div>
-            <div class="answer mn-answer" style="display: none;">
+            <div class="answer mn-answer" style="display: none;" data-lang="mn">
               ${formattedMnAnswer}
             </div>
           </div>
@@ -116,6 +122,9 @@ async function createCards() {
 
       container.appendChild(card);
     });
+
+    // Add double-click event listeners to all selectable elements
+    addDoubleClickListeners();
   } catch (error) {
     console.error("Error creating cards:", error);
     throw error;
@@ -244,6 +253,69 @@ async function addNewQuestion() {
     alert("Error adding question: " + error.message);
   }
 }
+
+// Текст уншуулах функц
+function speakText(button, type) {
+  // ResponsiveVoice ажиллаж байгаа эсэхийг шалгах
+  if (!window.responsiveVoice) {
+    alert("Text to speech is not available!");
+    return;
+  }
+
+  // Одоо тоглож байгаа дууг зогсоох
+  responsiveVoice.cancel();
+
+  // Товчлуурын анимэйшн
+  button.classList.add("speaking");
+
+  let textToSpeak = "";
+  const card = button.closest(".card-body");
+
+  if (type === "question") {
+    // Асуултыг уншуулах
+    textToSpeak = card
+      .querySelector(".question")
+      .textContent.replace(/\d+\.\s/, ""); // Дугаарыг хасах
+  } else if (type === "answer") {
+    // Хариултыг уншуулах
+    textToSpeak = button.parentElement.textContent.trim();
+  }
+
+  // Текстийг цэвэрлэх
+  textToSpeak = textToSpeak.replace(/[\n\r]+/g, " ").trim();
+
+  // ResponsiveVoice ашиглан уншуулах
+  responsiveVoice.speak(textToSpeak, "UK English Female", {
+    pitch: 1,
+    rate: 0.9,
+    volume: 1,
+    onend: () => {
+      // Дууссаны дараа анимэйшн зогсоох
+      button.classList.remove("speaking");
+    },
+  });
+}
+
+// Дуу тоглуулалтыг зогсоох функц
+function stopSpeaking() {
+  responsiveVoice.cancel();
+  document.querySelectorAll(".speaking").forEach((button) => {
+    button.classList.remove("speaking");
+  });
+}
+
+// Initialize voices when page loads
+document.addEventListener("DOMContentLoaded", () => {
+  window.speechSynthesis.getVoices();
+});
+
+// Add global function to stop speech
+window.stopSpeech = () => {
+  window.speechSynthesis.cancel();
+  document.querySelectorAll(".speaking").forEach((btn) => {
+    btn.classList.remove("speaking");
+  });
+};
 
 export {
   initializeDatabase,

@@ -14,7 +14,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <!-- Custom CSS -->
     <style>
@@ -276,7 +276,148 @@
         padding: 10px;
         margin-top: 10px;
       }
+
+      /* Speaking button тохиргоо */
+      .btn-outline-primary.speaking {
+        background-color: #0d6efd;
+        color: white;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Mobile device дээрх тохиргоо */
+      @media (max-width: 767.98px) {
+        .btn-group .btn {
+          padding: 0.25rem 0.5rem;
+        }
+
+        .btn-group .btn i {
+          font-size: 0.875rem;
+        }
+      }
+
+      /* Speaking button styles */
+      .btn-outline-info.speaking {
+        background-color: #0dcaf0;
+        color: white;
+        animation: pulse 1.5s infinite;
+      }
+
+      .btn-outline-info:hover {
+        background-color: #0dcaf0;
+        color: white;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Mobile device adjustments */
+      @media (max-width: 767.98px) {
+        .btn-group .btn {
+          padding: 0.25rem 0.5rem;
+          margin-right: 2px;
+        }
+
+        .btn-group .btn i {
+          font-size: 0.875rem;
+        }
+      }
+
+      /* Speaking button animation */
+      .speaking {
+        animation: pulse 1.5s infinite;
+        background-color: #0d6efd !important;
+        color: white !important;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Mobile device adjustments */
+      @media (max-width: 767.98px) {
+        .btn-sm {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      /* Speak button styles */
+      .btn-speak {
+        padding: 0.25rem 0.5rem;
+        margin-left: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      /* Mobile device adjustments */
+      @media (max-width: 767.98px) {
+        .btn-speak {
+          padding: 0.2rem 0.4rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      /* Add these new styles */
+      .selectable {
+        cursor: pointer;
+        user-select: text;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+      }
+
+      .selectable:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+        border-radius: 4px;
+      }
+
+      /* Highlight selected text */
+      .selectable::selection {
+        background-color: rgba(13, 110, 253, 0.2);
+      }
+
+      /* Mobile device specific styles */
+      @media (max-width: 767.98px) {
+        .selectable {
+          padding: 2px 4px;
+        }
+      }
     </style>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
   </head>
   <body>
     <!-- Header buttons -->
@@ -539,7 +680,7 @@
           }
         }
 
-        // Асуулт бүрийн Show/Hide товчны текстийг шинэчлэх
+        // Асуулт бүрийн Show/Hide товчны текстиг шинэчлэх
         const toggleBtns = document.querySelectorAll(
           ".card .btn-outline-primary, .card .btn-primary"
         );
@@ -560,6 +701,58 @@
       // DOM ачаалагдсаны дараа createCards дуудах
       document.addEventListener("DOMContentLoaded", function () {
         createCards();
+      });
+
+      // Function to speak selected text
+      function speakSelectedText(text) {
+        if (!window.responsiveVoice) {
+          alert("Text to speech is not available!");
+          return;
+        }
+
+        // Clean the text
+        text = text.trim().replace(/[\n\r]+/g, " ");
+
+        // Speak the text
+        responsiveVoice.speak(text, "UK English Female", {
+          pitch: 1,
+          rate: 0.9,
+          volume: 1,
+        });
+      }
+
+      // Function to add double-click listeners
+      function addDoubleClickListeners() {
+        document.querySelectorAll(".selectable").forEach((element) => {
+          element.addEventListener("dblclick", function (e) {
+            // Get the clicked text
+            let selection = window.getSelection();
+            let selectedText = selection.toString();
+
+            // If no text is selected, get the clicked word
+            if (!selectedText) {
+              let text = e.target.innerText;
+              let range = document.createRange();
+              range.selectNodeContents(e.target);
+              selection.removeAllRanges();
+              selection.addRange(range);
+              selectedText = selection.toString();
+            }
+
+            if (selectedText) {
+              // Stop any current speech
+              responsiveVoice.cancel();
+
+              // Speak the selected text
+              speakSelectedText(selectedText);
+            }
+          });
+        });
+      }
+
+      // Add this to ensure listeners are added after dynamic content loads
+      document.addEventListener("DOMContentLoaded", () => {
+        addDoubleClickListeners();
       });
     </script>
 
@@ -612,6 +805,75 @@
           await createCards();
         } catch (error) {
           console.error("Initialization error:", error);
+        }
+      });
+    </script>
+
+    <!-- Add this before closing body tag -->
+    <script>
+      // Make speakText function globally available
+      window.speakText = function (button, type) {
+        // ResponsiveVoice ажиллаж байгаа эсэхийг шалгах
+        if (!window.responsiveVoice) {
+          alert("Text to speech is not available!");
+          return;
+        }
+
+        // Одоо тоглож байгаа дууг зогсоох
+        responsiveVoice.cancel();
+
+        // Товчлуурын анимэйшн
+        button.classList.add("speaking");
+
+        let textToSpeak = "";
+        const card = button.closest(".card-body");
+
+        if (type === "question") {
+          // Асуултыг уншуулах
+          textToSpeak = card
+            .querySelector(".question")
+            .textContent.replace(/\d+\.\s/, "") // Дугаарыг хасах
+            .replace(/🔒/g, "") // Lock icon-ыг хасах
+            .trim();
+        } else if (type === "answer") {
+          // Хариултыг уншуулах
+          const answerText = button.parentElement.textContent.trim();
+          textToSpeak = answerText.replace(/Listen/g, "").trim(); // "Listen" текстийг хасах
+        }
+
+        // Текстийг цэвэрлэх
+        textToSpeak = textToSpeak.replace(/[\n\r]+/g, " ").trim();
+
+        console.log("Speaking:", textToSpeak); // Debug log
+
+        // ResponsiveVoice ашиглан уншуулах
+        responsiveVoice.speak(textToSpeak, "UK English Female", {
+          pitch: 1,
+          rate: 0.9,
+          volume: 1,
+          onend: () => {
+            // Дууссаны дараа анимэйшн зогсоох
+            button.classList.remove("speaking");
+          },
+        });
+      };
+
+      // Дуу тоглуулалтыг зогсоох функц
+      window.stopSpeaking = function () {
+        if (window.responsiveVoice) {
+          responsiveVoice.cancel();
+          document.querySelectorAll(".speaking").forEach((button) => {
+            button.classList.remove("speaking");
+          });
+        }
+      };
+
+      // Test ResponsiveVoice when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.responsiveVoice) {
+          console.log("ResponsiveVoice is ready");
+        } else {
+          console.error("ResponsiveVoice is not available");
         }
       });
     </script>
