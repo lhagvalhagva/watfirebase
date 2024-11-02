@@ -416,6 +416,146 @@
           padding: 2px 4px;
         }
       }
+
+      /* Mobile device (768px доош) */
+      @media (max-width: 767.98px) {
+        /* Card container */
+        .col-12 {
+          padding: 0 10px;
+        }
+
+        /* Card styling */
+        .card {
+          margin-bottom: 15px;
+          border-radius: 8px;
+        }
+
+        /* Question text */
+        .question {
+          font-size: 0.95rem;
+          line-height: 1.4;
+          margin-right: 35px;
+        }
+
+        /* Button group */
+        .btn-group {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+        }
+
+        /* Show/Hide Answer button */
+        .btn-outline-primary {
+          padding: 8px;
+          font-size: 0.9rem;
+        }
+
+        /* Voice button */
+        .btn-speak {
+          padding: 4px 8px;
+          font-size: 0.8rem;
+        }
+
+        /* Answer text */
+        .answer {
+          font-size: 0.9rem;
+          padding: 12px;
+          margin-top: 10px;
+          border-radius: 6px;
+        }
+
+        /* Container spacing */
+        .container-fluid {
+          padding: 10px;
+        }
+
+        body {
+          padding-top: 110px;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+
+      /* Tablet and desktop remain unchanged */
+      @media (min-width: 768px) {
+        .col-md-6 {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .col-lg-4 {
+          flex: 0 0 33.333333%;
+          max-width: 33.333333%;
+        }
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        border-top: 1px solid #dee2e6;
+        margin-top: auto;
+      }
+
+      .footer .social-link {
+        color: #6c757d;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer .social-link:hover {
+        color: #0d6efd;
+      }
+
+      .footer .social-link i {
+        margin-right: 5px;
+      }
+
+      .footer .copyright {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 15px;
+      }
+
+      /* Make footer stick to bottom */
+      html {
+        height: 100%;
+      }
+
+      body {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container-fluid {
+        flex: 1;
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 767.98px) {
+        .footer {
+          padding: 15px 0;
+          margin-top: 20px;
+        }
+
+        .footer .social-link {
+          display: block;
+          margin: 10px 0;
+        }
+
+        .footer .copyright {
+          font-size: 0.8rem;
+        }
+
+        /* Adjust bottom padding to account for footer */
+        body {
+          padding-bottom: 100px;
+        }
+      }
     </style>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
     <script src="uploadData.js"></script>
@@ -861,8 +1001,8 @@
 
           console.log("Speaking:", textToSpeak); // Debug log
 
-          // Speak the text
-          responsiveVoice.speak(textToSpeak, "UK English Female", {
+          // Use US Male voice
+          responsiveVoice.speak(textToSpeak, "US English Male", {
             pitch: 1,
             rate: 0.9,
             volume: 1,
@@ -880,15 +1020,51 @@
         }
       };
 
-      // Дуу тоглуулалтыг зогсоох функц
-      window.stopSpeaking = function () {
-        if (window.responsiveVoice) {
-          responsiveVoice.cancel();
-          document.querySelectorAll(".speaking").forEach((btn) => {
-            btn.classList.remove("speaking");
-          });
+      // Double-click handler-т мөн өөрчлөлт оруулах
+      function handleTextSelection(e) {
+        if (!window.responsiveVoice) {
+          console.error("ResponsiveVoice is not loaded!");
+          return;
         }
-      };
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        try {
+          let selectedText = "";
+
+          if (isMobile) {
+            selectedText = e.target.textContent.trim();
+          } else {
+            selectedText = window.getSelection().toString().trim();
+          }
+
+          if (selectedText) {
+            responsiveVoice.cancel();
+
+            const success = responsiveVoice.speak(
+              selectedText,
+              "US English Male",
+              {
+                pitch: 1,
+                rate: 0.9,
+                volume: 1,
+                onerror: (e) => console.error("Speech error:", e),
+              }
+            );
+
+            if (!success && isMobile) {
+              alert("Tap OK to enable voice feature");
+              responsiveVoice.speak(selectedText, "US English Male", {
+                pitch: 1,
+                rate: 0.9,
+                volume: 1,
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Speech error:", error);
+        }
+      }
 
       // Test ResponsiveVoice when page loads
       document.addEventListener("DOMContentLoaded", () => {
@@ -912,7 +1088,7 @@
 
           firestoreQuestions.forEach((data, index) => {
             const card = document.createElement("div");
-            card.className = "col-12 col-md-6 col-lg-4";
+            card.className = "col-12";
 
             const formattedEnAnswer = boldBracketedText(data.en);
             const formattedMnAnswer = boldBracketedText(data.mn);
@@ -922,13 +1098,13 @@
               : "";
 
             card.innerHTML = `
-              <div class="card h-100">
+              <div class="card">
                 <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start mb-2">
-                    <h5 class="card-title question selectable">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <h5 class="card-title question selectable mb-3">
                       ${index + 1}. ${data.question}
                       ${protectedIcon}
-                      <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
+                      <button class="btn btn-speak btn-outline-primary btn-sm ms-2" onclick="speakText(this, 'question')" title="Listen">
                         <i class="fas fa-volume-up"></i>
                       </button>
                     </h5>
@@ -945,12 +1121,12 @@
                       </button>
                     </div>
                   </div>
-                  <button class="btn btn-outline-primary mb-2" onclick="toggleAnswer(this)">
+                  <button class="btn btn-outline-primary w-100" onclick="toggleAnswer(this)">
                     Show Answer
                   </button>
                   <div class="answer en-answer selectable" style="display: none;" data-lang="en">
                     ${formattedEnAnswer}
-                    <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'answer')" title="Listen">
+                    <button class="btn btn-speak btn-outline-primary btn-sm" onclick="speakText(this, 'answer')" title="Listen">
                       <i class="fas fa-volume-up"></i>
                     </button>
                   </div>
@@ -964,7 +1140,6 @@
             container.appendChild(card);
           });
 
-          // Add double-click listeners after creating cards
           addDoubleClickListeners();
         } catch (error) {
           console.error("Error creating cards:", error);
@@ -988,5 +1163,30 @@
         }
       });
     </script>
+
+    <!-- Main content container-ийн дараа -->
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <p class="mb-2">
+              <a
+                href="https://www.facebook.com/profile.php?id=100064952799492"
+                target="_blank"
+                class="social-link"
+              >
+                <i class="fab fa-facebook"></i> Lhagva Dorjj
+              </a>
+            </p>
+            <p class="mb-2">
+              <a href="mailto:lhagvabatulzii@gmail.com" class="social-link">
+                <i class="fas fa-envelope"></i> lhagvabatulzii@gmail.com
+              </a>
+            </p>
+            <p class="copyright">© 2024 WAT Interview. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
