@@ -285,7 +285,7 @@ function speakText(button, type) {
   textToSpeak = textToSpeak.replace(/[\n\r]+/g, " ").trim();
 
   // ResponsiveVoice ашиглан уншуулах
-  responsiveVoice.speak(textToSpeak, "UK English Female", {
+  responsiveVoice.speak(textToSpeak, "US English Male", {
     pitch: 1,
     rate: 0.9,
     volume: 1,
