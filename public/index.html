@@ -416,8 +416,28 @@
           padding: 2px 4px;
         }
       }
+
+      /* Mobile-specific styles */
+      @media (max-width: 767.98px) {
+        .selectable {
+          -webkit-tap-highlight-color: rgba(13, 110, 253, 0.1);
+          padding: 4px;
+          margin: 2px 0;
+        }
+
+        .btn-speak {
+          padding: 4px 8px;
+          margin: 2px;
+        }
+
+        /* Larger touch targets for mobile */
+        .btn-speak i {
+          font-size: 1.2em;
+        }
+      }
     </style>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
+    <script src="uploadData.js"></script>
   </head>
   <body>
     <!-- Header buttons -->
@@ -813,65 +833,165 @@
     <script>
       // Make speakText function globally available
       window.speakText = function (button, type) {
-        // ResponsiveVoice ажиллаж байгаа эсэхийг шалгах
+        // Check if running on mobile
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        // Check ResponsiveVoice
         if (!window.responsiveVoice) {
-          alert("Text to speech is not available!");
+          console.error("ResponsiveVoice is not loaded!");
           return;
         }
 
-        // Одоо тоглож байгаа дууг зогсоох
+        // First try to initialize voice on mobile
+        if (isMobile) {
+          responsiveVoice.init();
+        }
+
+        // Cancel any ongoing speech
         responsiveVoice.cancel();
 
-        // Товчлуурын анимэйшн
+        // Add speaking animation
         button.classList.add("speaking");
 
         let textToSpeak = "";
         const card = button.closest(".card-body");
 
-        if (type === "question") {
-          // Асуултыг уншуулах
-          textToSpeak = card
-            .querySelector(".question")
-            .textContent.replace(/\d+\.\s/, "") // Дугаарыг хасах
-            .replace(/🔒/g, "") // Lock icon-ыг хасах
-            .trim();
-        } else if (type === "answer") {
-          // Хариултыг уншуулах
-          const answerText = button.parentElement.textContent.trim();
-          textToSpeak = answerText.replace(/Listen/g, "").trim(); // "Listen" текстийг хасах
+        try {
+          if (type === "question") {
+            textToSpeak = card
+              .querySelector(".question")
+              .textContent.replace(/\d+\.\s/, "")
+              .replace(/🔒/g, "")
+              .trim();
+          } else if (type === "answer") {
+            const answerText = button.parentElement.textContent.trim();
+            textToSpeak = answerText.replace(/Listen/g, "").trim();
+          }
+
+          // Clean the text
+          textToSpeak = textToSpeak.replace(/[\n\r]+/g, " ").trim();
+
+          console.log("Speaking:", textToSpeak); // Debug log
+
+          // Mobile-specific settings
+          const voiceOptions = {
+            pitch: 1,
+            rate: 0.9,
+            volume: 1,
+            onend: () => {
+              button.classList.remove("speaking");
+            },
+            onerror: (e) => {
+              console.error("Speech error:", e);
+              button.classList.remove("speaking");
+              if (isMobile) {
+                alert("Please enable sound permissions and try again.");
+              }
+            },
+          };
+
+          // Try to speak
+          const success = responsiveVoice.speak(
+            textToSpeak,
+            "UK English Female",
+            voiceOptions
+          );
+
+          if (!success) {
+            console.error("Failed to start speech");
+            button.classList.remove("speaking");
+
+            if (isMobile) {
+              // Try to trigger user interaction for mobile
+              alert("Tap OK to enable voice feature");
+              responsiveVoice.speak(
+                textToSpeak,
+                "UK English Female",
+                voiceOptions
+              );
+            }
+          }
+        } catch (error) {
+          console.error("Speech error:", error);
+          button.classList.remove("speaking");
+        }
+      };
+
+      // Double-click/tap handler
+      function handleTextSelection(e) {
+        if (!window.responsiveVoice) {
+          console.error("ResponsiveVoice is not loaded!");
+          return;
         }
 
-        // Текстийг цэвэрлэх
-        textToSpeak = textToSpeak.replace(/[\n\r]+/g, " ").trim();
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        console.log("Speaking:", textToSpeak); // Debug log
+        try {
+          let selectedText = "";
 
-        // ResponsiveVoice ашиглан уншуулах
-        responsiveVoice.speak(textToSpeak, "UK English Female", {
-          pitch: 1,
-          rate: 0.9,
-          volume: 1,
-          onend: () => {
-            // Дууссаны дараа анимэйшн зогсоох
-            button.classList.remove("speaking");
-          },
+          if (isMobile) {
+            // For mobile, get the clicked element's text
+            selectedText = e.target.textContent.trim();
+          } else {
+            // For desktop, get selected text
+            selectedText = window.getSelection().toString().trim();
+          }
+
+          if (selectedText) {
+            responsiveVoice.cancel(); // Stop any current speech
+
+            const success = responsiveVoice.speak(
+              selectedText,
+              "UK English Female",
+              {
+                pitch: 1,
+                rate: 0.9,
+                volume: 1,
+                onerror: (e) => console.error("Speech error:", e),
+              }
+            );
+
+            if (!success && isMobile) {
+              // Try to trigger user interaction for mobile
+              alert("Tap OK to enable voice feature");
+              responsiveVoice.speak(selectedText, "UK English Female", {
+                pitch: 1,
+                rate: 0.9,
+                volume: 1,
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Speech error:", error);
+        }
+      }
+
+      // Add event listeners for text selection
+      function addTextListeners() {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        document.querySelectorAll(".selectable").forEach((element) => {
+          if (isMobile) {
+            // Single tap for mobile
+            element.addEventListener("click", handleTextSelection);
+          } else {
+            // Double click for desktop
+            element.addEventListener("dblclick", handleTextSelection);
+          }
         });
-      };
+      }
 
-      // Дуу тоглуулалтыг зогсоох функц
-      window.stopSpeaking = function () {
-        if (window.responsiveVoice) {
-          responsiveVoice.cancel();
-          document.querySelectorAll(".speaking").forEach((button) => {
-            button.classList.remove("speaking");
-          });
-        }
-      };
-
-      // Test ResponsiveVoice when page loads
+      // Initialize when document is ready
       document.addEventListener("DOMContentLoaded", () => {
+        // Check if ResponsiveVoice is loaded
         if (window.responsiveVoice) {
           console.log("ResponsiveVoice is ready");
+
+          // Try to initialize voice
+          responsiveVoice.init();
+
+          // Add text selection listeners
+          addTextListeners();
         } else {
           console.error("ResponsiveVoice is not available");
         }
