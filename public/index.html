@@ -416,25 +416,6 @@
           padding: 2px 4px;
         }
       }
-
-      /* Mobile-specific styles */
-      @media (max-width: 767.98px) {
-        .selectable {
-          -webkit-tap-highlight-color: rgba(13, 110, 253, 0.1);
-          padding: 4px;
-          margin: 2px 0;
-        }
-
-        .btn-speak {
-          padding: 4px 8px;
-          margin: 2px;
-        }
-
-        /* Larger touch targets for mobile */
-        .btn-speak i {
-          font-size: 1.2em;
-        }
-      }
     </style>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
     <script src="uploadData.js"></script>
@@ -833,19 +814,26 @@
     <script>
       // Make speakText function globally available
       window.speakText = function (button, type) {
-        // Check if running on mobile
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        // Check ResponsiveVoice
+        // Check if ResponsiveVoice is loaded
         if (!window.responsiveVoice) {
           console.error("ResponsiveVoice is not loaded!");
           return;
         }
 
-        // First try to initialize voice on mobile
-        if (isMobile) {
-          responsiveVoice.init();
+        // Check if button is already speaking
+        if (button.classList.contains("speaking")) {
+          // If speaking, stop it
+          responsiveVoice.cancel();
+          button.classList.remove("speaking");
+          return;
         }
+
+        // Remove speaking class from all other buttons
+        document.querySelectorAll(".speaking").forEach((btn) => {
+          if (btn !== button) {
+            btn.classList.remove("speaking");
+          }
+        });
 
         // Cancel any ongoing speech
         responsiveVoice.cancel();
@@ -873,8 +861,8 @@
 
           console.log("Speaking:", textToSpeak); // Debug log
 
-          // Mobile-specific settings
-          const voiceOptions = {
+          // Speak the text
+          responsiveVoice.speak(textToSpeak, "UK English Female", {
             pitch: 1,
             rate: 0.9,
             volume: 1,
@@ -884,114 +872,28 @@
             onerror: (e) => {
               console.error("Speech error:", e);
               button.classList.remove("speaking");
-              if (isMobile) {
-                alert("Please enable sound permissions and try again.");
-              }
             },
-          };
-
-          // Try to speak
-          const success = responsiveVoice.speak(
-            textToSpeak,
-            "UK English Female",
-            voiceOptions
-          );
-
-          if (!success) {
-            console.error("Failed to start speech");
-            button.classList.remove("speaking");
-
-            if (isMobile) {
-              // Try to trigger user interaction for mobile
-              alert("Tap OK to enable voice feature");
-              responsiveVoice.speak(
-                textToSpeak,
-                "UK English Female",
-                voiceOptions
-              );
-            }
-          }
+          });
         } catch (error) {
           console.error("Speech error:", error);
           button.classList.remove("speaking");
         }
       };
 
-      // Double-click/tap handler
-      function handleTextSelection(e) {
-        if (!window.responsiveVoice) {
-          console.error("ResponsiveVoice is not loaded!");
-          return;
+      // Дуу тоглуулалтыг зогсоох функц
+      window.stopSpeaking = function () {
+        if (window.responsiveVoice) {
+          responsiveVoice.cancel();
+          document.querySelectorAll(".speaking").forEach((btn) => {
+            btn.classList.remove("speaking");
+          });
         }
+      };
 
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        try {
-          let selectedText = "";
-
-          if (isMobile) {
-            // For mobile, get the clicked element's text
-            selectedText = e.target.textContent.trim();
-          } else {
-            // For desktop, get selected text
-            selectedText = window.getSelection().toString().trim();
-          }
-
-          if (selectedText) {
-            responsiveVoice.cancel(); // Stop any current speech
-
-            const success = responsiveVoice.speak(
-              selectedText,
-              "UK English Female",
-              {
-                pitch: 1,
-                rate: 0.9,
-                volume: 1,
-                onerror: (e) => console.error("Speech error:", e),
-              }
-            );
-
-            if (!success && isMobile) {
-              // Try to trigger user interaction for mobile
-              alert("Tap OK to enable voice feature");
-              responsiveVoice.speak(selectedText, "UK English Female", {
-                pitch: 1,
-                rate: 0.9,
-                volume: 1,
-              });
-            }
-          }
-        } catch (error) {
-          console.error("Speech error:", error);
-        }
-      }
-
-      // Add event listeners for text selection
-      function addTextListeners() {
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        document.querySelectorAll(".selectable").forEach((element) => {
-          if (isMobile) {
-            // Single tap for mobile
-            element.addEventListener("click", handleTextSelection);
-          } else {
-            // Double click for desktop
-            element.addEventListener("dblclick", handleTextSelection);
-          }
-        });
-      }
-
-      // Initialize when document is ready
+      // Test ResponsiveVoice when page loads
       document.addEventListener("DOMContentLoaded", () => {
-        // Check if ResponsiveVoice is loaded
         if (window.responsiveVoice) {
           console.log("ResponsiveVoice is ready");
-
-          // Try to initialize voice
-          responsiveVoice.init();
-
-          // Add text selection listeners
-          addTextListeners();
         } else {
           console.error("ResponsiveVoice is not available");
         }
