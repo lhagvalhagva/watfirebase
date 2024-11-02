@@ -71,7 +71,7 @@ async function createCards() {
     // Create cards in sorted order
     firestoreQuestions.forEach((data, index) => {
       const card = document.createElement("div");
-      card.className = "col-md-6";
+      card.className = "col-12 col-md-6 col-lg-4";
 
       const formattedEnAnswer = boldBracketedText(data.en);
       const formattedMnAnswer = boldBracketedText(data.mn);
@@ -81,7 +81,7 @@ async function createCards() {
         : "";
 
       card.innerHTML = `
-        <div class="card">
+        <div class="card h-100">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <h5 class="card-title question">

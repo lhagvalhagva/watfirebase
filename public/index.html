@@ -38,13 +38,18 @@
       }
 
       .card {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         border: none;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s;
+        height: 100%;
       }
       .card:hover {
+        transform: translateY(-5px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .card-body {
+        padding: 15px;
       }
       .row > [class*="col-"] {
         padding-bottom: 20px;
@@ -55,7 +60,7 @@
       .question {
         font-weight: 600;
         color: #2c3e50;
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       .answer {
         display: none;
@@ -124,6 +129,153 @@
         padding: 0.25rem 0.5rem;
         font-size: 0.875rem;
       }
+
+      /* Container spacing */
+      .container-fluid {
+        padding: 0 15px;
+      }
+
+      /* Card spacing */
+      .card {
+        margin-bottom: 15px;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        height: 100%;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-body {
+        padding: 15px;
+      }
+
+      /* Question spacing */
+      .question {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 1rem;
+      }
+
+      /* Answer spacing */
+      .answer {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        border-left: 4px solid #0d6efd;
+      }
+
+      /* Mobile device (768px доош) */
+      @media (max-width: 767.98px) {
+        body {
+          padding-top: 120px;
+          padding: 10px;
+        }
+
+        .container-fluid {
+          padding: 0 10px;
+        }
+
+        .card {
+          margin-bottom: 10px;
+        }
+
+        .card-body {
+          padding: 12px;
+        }
+
+        .question {
+          font-size: 0.95rem;
+        }
+
+        .answer {
+          padding: 12px;
+          margin-top: 12px;
+          font-size: 0.9rem;
+        }
+
+        .btn {
+          padding: 0.375rem 0.75rem;
+          font-size: 0.875rem;
+        }
+
+        .language-toggle {
+          padding: 0.75rem;
+        }
+
+        .language-toggle .btn {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.875rem;
+        }
+      }
+
+      /* Tablet device (768px-991px) */
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        .col-md-6 {
+          padding: 0 10px;
+        }
+      }
+
+      /* Desktop device (992px дээш) */
+      @media (min-width: 992px) {
+        .col-lg-4 {
+          padding: 0 10px;
+        }
+      }
+
+      /* Language toggle button тохиргоо */
+      .language-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 575.98px) {
+        .language-toggle {
+          padding: 0.5rem; /* Mobile дээр padding багасгах */
+        }
+
+        .language-toggle .btn {
+          padding: 0.25rem 0.5rem; /* Button size багасгах */
+          font-size: 1rem;
+        }
+
+        .btn-group {
+          margin-bottom: 5px;
+        }
+      }
+
+      /* Answer button тохиргоо */
+      .btn-outline-primary,
+      .btn-primary {
+        width: 100%; /* Mobile дээр бүтэн өргөнтэй болгох */
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 575.98px) {
+        .btn-outline-primary,
+        .btn-primary {
+          padding: 0.375rem 0.75rem; /* Button size багасгах */
+          font-size: 0.875rem;
+        }
+      }
+
+      /* Answer box тохиргоо */
+      .answer {
+        font-size: 0.9rem; /* Mobile дээр текст багасгах */
+        padding: 10px;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -163,18 +315,18 @@
           Монгол
         </button>
         <button
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary px-4"
           onclick="toggleLanguage('both')"
         >
           Both
         </button>
-        <button class="btn btn-secondary" onclick="hideAllAnswers()">
-          Hide All Answers
+        <button class="btn btn-secondary px-5" onclick="hideAllAnswers()">
+          Hide Answers
         </button>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
       <div id="qa-container" class="row">
         <!-- Questions will be loaded here -->
       </div>
