@@ -877,5 +877,94 @@
         }
       });
     </script>
+
+    <script>
+      // Global variables
+      let firestoreQuestions = [];
+
+      // Create cards function
+      window.createCards = function () {
+        try {
+          const container = document.getElementById("qa-container");
+          container.innerHTML = "";
+
+          firestoreQuestions.forEach((data, index) => {
+            const card = document.createElement("div");
+            card.className = "col-12 col-md-6 col-lg-4";
+
+            const formattedEnAnswer = boldBracketedText(data.en);
+            const formattedMnAnswer = boldBracketedText(data.mn);
+
+            const protectedIcon = data.isProtected
+              ? '<i class="fas fa-lock text-warning ms-2" title="Protected Question"></i>'
+              : "";
+
+            card.innerHTML = `
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title question selectable">
+                      ${index + 1}. ${data.question}
+                      ${protectedIcon}
+                      <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
+                        <i class="fas fa-volume-up"></i>
+                      </button>
+                    </h5>
+                    <div class="btn-group">
+                      <button class="btn btn-outline-secondary btn-sm" onclick="editQuestion('${
+                        data.id
+                      }')" title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-outline-danger btn-sm" onclick="deleteQuestion('${
+                        data.id
+                      }')" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-primary mb-2" onclick="toggleAnswer(this)">
+                    Show Answer
+                  </button>
+                  <div class="answer en-answer selectable" style="display: none;" data-lang="en">
+                    ${formattedEnAnswer}
+                    <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'answer')" title="Listen">
+                      <i class="fas fa-volume-up"></i>
+                    </button>
+                  </div>
+                  <div class="answer mn-answer" style="display: none;" data-lang="mn">
+                    ${formattedMnAnswer}
+                  </div>
+                </div>
+              </div>
+            `;
+
+            container.appendChild(card);
+          });
+
+          // Add double-click listeners after creating cards
+          addDoubleClickListeners();
+        } catch (error) {
+          console.error("Error creating cards:", error);
+          throw error;
+        }
+      };
+
+      // Helper function for text formatting
+      function boldBracketedText(text) {
+        if (!text) return "";
+        return text.replace(/\[([^\]]+)\]/g, "<strong>$1</strong>");
+      }
+
+      // Initialize when document is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.responsiveVoice) {
+          console.log("ResponsiveVoice is ready");
+          // Note: createCards will be called after data is loaded from Firestore
+        } else {
+          console.error("ResponsiveVoice is not available");
+        }
+      });
+    </script>
   </body>
 </html>
