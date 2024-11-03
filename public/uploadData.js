@@ -87,6 +87,7 @@ async function createCards() {
               <h5 class="card-title question selectable">
                 ${index + 1}. ${data.question}
                 ${protectedIcon}
+                </br>
                 <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
                   <i class="fas fa-volume-up"></i>
                 </button>

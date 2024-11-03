@@ -556,6 +556,106 @@
           padding-bottom: 100px;
         }
       }
+
+      /* Language toggle buttons */
+      .language-toggle .btn-group {
+        width: 100%;
+        display: flex;
+        align-items: stretch;
+      }
+
+      .language-toggle .btn-group .btn {
+        flex: 1;
+        padding: 8px 0;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      /* First button left radius */
+      .language-toggle .btn-group .btn:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      /* Last button right radius */
+      .language-toggle .btn-group .btn:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 767.98px) {
+        .language-toggle .btn-group {
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+
+        .language-toggle .btn-group .btn {
+          flex: 1 1 calc(50% - 5px);
+          font-size: 0.85rem;
+          padding: 6px 0;
+          border-radius: 4px;
+        }
+      }
+
+      /* Question title and voice button */
+      .card-title.question {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-right: 40px;
+      }
+
+      /* Question text */
+      .question-text {
+        flex: 1;
+        margin-right: 35px;
+      }
+
+      /* Voice button */
+      .btn-speak {
+        padding: 2px 6px !important;
+        font-size: 0.8rem !important;
+        height: 24px;
+        width: fit-content;
+        min-width: 32px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+      }
+
+      /* Voice icon */
+      .btn-speak i {
+        font-size: 0.85rem;
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 767.98px) {
+        .card-title.question {
+          gap: 6px;
+        }
+
+        .question-text {
+          margin-right: 30px;
+        }
+
+        .btn-speak {
+          padding: 1px 5px !important;
+          font-size: 0.75rem !important;
+          height: 22px;
+        }
+
+        .btn-speak i {
+          font-size: 0.8rem;
+        }
+      }
     </style>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
     <script src="uploadData.js"></script>
@@ -564,6 +664,10 @@
     <!-- Header buttons -->
     <div class="text-center mb-4">
       <h1>Wat Interview Questions</h1>
+      <p>
+        Хэрвээ та Laptop дээрээс website үзэж байгаа бол картан дээрх үг дээр 2
+        удаа товшвол үгний дуудлага сонсогдоно. Баярлалаа...
+      </p>
       <button
         class="btn btn-primary me-2"
         data-bs-toggle="modal"
@@ -749,7 +853,10 @@
     <!-- Custom JavaScript -->
     <script>
       function boldBracketedText(text) {
-        return text.replace(/\[(.*?)\]/g, "<strong>[$1]</strong>");
+        return text.replace(
+          /\[([^\]]+)\]/g,
+          "<strong>[</strong><strong>$1</strong><strong>]</strong>"
+        );
       }
 
       function hideAllAnswers() {
@@ -839,7 +946,7 @@
         });
       }
 
-      // DOM ачаалагдсаны дараа createCards дуудах
+      // DOM ачаалагдсаны дара createCards дуудах
       document.addEventListener("DOMContentLoaded", function () {
         createCards();
       });
@@ -1101,10 +1208,11 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-start">
-                    <h5 class="card-title question selectable mb-3">
-                      ${index + 1}. ${data.question}
-                      ${protectedIcon}
-                      <button class="btn btn-speak btn-outline-primary btn-sm ms-2" onclick="speakText(this, 'question')" title="Listen">
+                    <h5 class="card-title question selectable">
+                      <div class="question-text">
+                        ${index + 1}. ${data.question} ${protectedIcon}
+                      </div>
+                      <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
                         <i class="fas fa-volume-up"></i>
                       </button>
                     </h5>
