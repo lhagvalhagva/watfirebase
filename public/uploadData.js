@@ -3,9 +3,6 @@ import { questions, protectedQuestions } from "./questions.js";
 // Firebase холболт
 const db = firebase.firestore();
 
-// Тусгай эрхтэй admin-ы email
-const SUPER_ADMIN_EMAIL = "your_email@gmail.com"; // Энд өөрийн email-г бичнэ
-
 // Зөвшөөрөгдсөн email хаягууд
 const AUTHORIZED_EMAILS = ["teacher", "Bagshxd", "bibna", "aa"]; // Энд зөвшөөрөгдсөн email-үүдээ бичнэ
 
@@ -87,7 +84,7 @@ async function createCards() {
               <h5 class="card-title question selectable">
                 ${index + 1}. ${data.question}
                 ${protectedIcon}
-                </br>
+          
                 <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
                   <i class="fas fa-volume-up"></i>
                 </button>
