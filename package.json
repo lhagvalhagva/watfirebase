@@ -1,12 +1,15 @@
 {
-  "name": "watfirebase",
+  "name": "english-learning-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "English learning application with Firebase integration",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
+    "start": "serve public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "firebase": "^8.10.0",
+    "serve": "^13.0.2"
+  }
 }

@@ -315,10 +315,88 @@ window.stopSpeech = () => {
   });
 };
 
+// Add new function to handle CSV upload
+async function uploadCSVData(file) {
+  try {
+    const reader = new FileReader();
+
+    reader.onload = async (event) => {
+      const csvData = event.target.result;
+      // Split by newlines but handle both \r\n and \n
+      const rows = csvData.split(/\r?\n/);
+
+      // Skip header row and process each data row
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].trim();
+        if (!row) continue; // Skip empty rows
+
+        // Use regex to properly parse CSV, handling quoted fields
+        const regex = /(?:^|,)("(?:[^"]*(?:""[^"]*)*)"|\d*\.?\d+|[^,]*)/g;
+        const columns = [];
+        let match;
+
+        while ((match = regex.exec(row))) {
+          let value = match[1] || match[0];
+          // Remove leading comma if present
+          if (value.startsWith(",")) value = value.slice(1);
+          // Remove surrounding quotes and handle escaped quotes
+          if (value.startsWith('"') && value.endsWith('"')) {
+            value = value.slice(1, -1).replace(/""/g, '"');
+          }
+          columns.push(value.trim());
+        }
+
+        // Ensure we have all three columns
+        if (columns.length >= 3) {
+          const question = columns[0];
+          const enAnswer = columns[1];
+          const mnAnswer = columns[2];
+
+          console.log("Adding question:", { question, enAnswer, mnAnswer }); // Debug log
+
+          // Add to Firebase only if all fields are present
+          if (question && enAnswer && mnAnswer) {
+            await db.collection("questions").add({
+              question: question,
+              en: enAnswer,
+              mn: mnAnswer,
+              isProtected: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+          }
+        }
+      }
+
+      alert("CSV data uploaded successfully!");
+      createCards(); // Refresh display
+    };
+
+    reader.readAsText(file, "UTF-8"); // Specify UTF-8 encoding
+  } catch (error) {
+    console.error("Error uploading CSV:", error);
+    alert("Error uploading CSV: " + error.message);
+  }
+}
+
+// Add function to handle file selection
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const fileType = file.name.split(".").pop().toLowerCase();
+  if (fileType !== "csv") {
+    alert("Please upload a CSV file");
+    return;
+  }
+
+  uploadCSVData(file);
+}
+
 export {
   initializeDatabase,
   createCards,
   editQuestion,
   deleteQuestion,
   addNewQuestion,
+  handleFileSelect,
 };

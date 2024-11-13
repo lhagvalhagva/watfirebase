@@ -1,0 +1,142 @@
+/* General Styles */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Language Toggle */
+.language-toggle {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(222, 226, 230, 0.5);
+  padding: 15px;
+  z-index: 1000;
+}
+
+.language-toggle .btn-group {
+  gap: 10px;
+  padding: 5px;
+  background: rgba(248, 249, 250, 0.5);
+  border-radius: 12px;
+}
+
+/* Card Styles */
+.card {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: none;
+  border-radius: 16px;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(13, 110, 253, 0.12);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Answer Sections */
+.answer {
+  border-radius: 12px;
+  border-left: 5px solid #0d6efd;
+  padding: 15px;
+  margin-top: 15px;
+  background: linear-gradient(to right, rgba(13, 110, 253, 0.05), transparent);
+  transition: all 0.3s ease;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-speak {
+  padding: 4px 8px;
+  margin-left: 8px;
+  font-size: 0.9rem;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+/* Speaking Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.speaking {
+  animation: pulse 1s infinite;
+  color: #0d6efd;
+}
+
+/* Selectable Text */
+.selectable {
+  user-select: all;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 767.98px) {
+  .card {
+    margin: 12px 8px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+  }
+
+  .instruction-text {
+    background: rgba(13, 110, 253, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+}

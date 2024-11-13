@@ -672,35 +672,546 @@
           margin: 12px 0;
         }
       }
+
+      /* Add smooth transitions */
+      .btn,
+      .card,
+      .social-link {
+        transition: all 0.3s ease;
+      }
+
+      /* Enhance card hover effect */
+      .card {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 16px rgba(13, 110, 253, 0.15);
+      }
+
+      /* Improve button styles */
+      .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #0d6efd, #0a58ca);
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #0a58ca, #084298);
+        transform: translateY(-1px);
+      }
+
+      /* Enhanced language toggle */
+      .language-toggle {
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(222, 226, 230, 0.3);
+      }
+
+      .language-toggle .btn-group {
+        gap: 8px;
+        padding: 8px;
+      }
+
+      .language-toggle .btn {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .language-toggle .btn::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #0d6efd;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .language-toggle .btn.btn-primary::after {
+        transform: scaleX(1);
+      }
+
+      /* Enhance answer sections */
+      .answer {
+        border-radius: 12px;
+        border-left-width: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      /* Improve mobile experience */
+      @media (max-width: 767.98px) {
+        .card {
+          margin: 10px 5px;
+          border-radius: 12px;
+        }
+
+        .btn {
+          padding: 10px 16px;
+        }
+
+        .instruction-text {
+          background: rgba(13, 110, 253, 0.05);
+          border-radius: 8px;
+          padding: 12px;
+          margin: 15px 5px;
+          font-size: 0.9rem;
+          line-height: 1.5;
+        }
+      }
+
+      /* Enhanced footer */
+      .footer {
+        background: linear-gradient(to bottom, #f8f9fa, #fff);
+        padding: 30px 0;
+      }
+
+      .social-link {
+        padding: 8px 16px;
+        border-radius: 20px;
+        background: rgba(13, 110, 253, 0.05);
+      }
+
+      .social-link:hover {
+        background: rgba(13, 110, 253, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .non-selectable {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Enhanced card hover effects */
+      .card {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(13, 110, 253, 0.12);
+      }
+
+      /* Improved button styles */
+      .btn {
+        border-radius: 10px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .btn:hover::after {
+        opacity: 1;
+      }
+
+      /* Enhanced language toggle */
+      .language-toggle {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid rgba(222, 226, 230, 0.5);
+        padding: 15px;
+      }
+
+      .language-toggle .btn-group {
+        gap: 10px;
+        padding: 5px;
+        background: rgba(248, 249, 250, 0.5);
+        border-radius: 12px;
+      }
+
+      /* Improved answer sections */
+      .answer {
+        border-radius: 12px;
+        border-left-width: 5px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .answer:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(13, 110, 253, 0.12);
+      }
+
+      /* Enhanced footer */
+      .footer {
+        background: linear-gradient(to bottom, #f8f9fa, #fff);
+        padding: 40px 0;
+        margin-top: 60px;
+      }
+
+      .social-link {
+        padding: 12px 24px;
+        border-radius: 25px;
+        background: rgba(13, 110, 253, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .social-link:hover {
+        background: rgba(13, 110, 253, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
+      }
+
+      /* Loading skeleton animation */
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      .loading {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #e0e0e0 50%,
+          #f0f0f0 75%
+        );
+        background-size: 1000px 100%;
+        animation: shimmer 2s infinite linear;
+      }
+
+      /* Mobile optimizations */
+      @media (max-width: 767.98px) {
+        .card {
+          margin: 12px 8px;
+          border-radius: 16px;
+        }
+
+        .btn {
+          padding: 12px 20px;
+        }
+
+        .instruction-text {
+          background: rgba(13, 110, 253, 0.05);
+          border-radius: 12px;
+          padding: 15px;
+          margin: 20px 8px;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      /* Main title */
+      .main-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Interview type toggle */
+      .interview-type-toggle {
+        margin-bottom: 2rem;
+      }
+
+      .interview-type-toggle .btn-group {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 4px;
+        background: #f8f9fa;
+      }
+
+      .interview-type-toggle .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .interview-type-toggle .btn.active {
+        background-color: #0d6efd;
+        color: white;
+        transform: scale(1.02);
+      }
+
+      .interview-type-toggle .btn:not(.active):hover {
+        background-color: #e9ecef;
+      }
+
+      /* Instruction card */
+      .instruction-card {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 2rem auto;
+        max-width: 600px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .instruction-icon {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        background: #0d6efd;
+        color: white;
+        padding: 1rem;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        opacity: 0.1;
+      }
+
+      .instruction-text {
+        color: #495057;
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .device-specific {
+        display: block;
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        border-radius: 8px;
+        background: rgba(13, 110, 253, 0.05);
+      }
+
+      /* Action buttons */
+      .action-buttons {
+        margin: 2rem 0;
+      }
+
+      .btn-add {
+        padding: 12px 30px;
+        font-weight: 500;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+      }
+
+      .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(13, 110, 253, 0.3);
+      }
+
+      /* Question cards */
+      .card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border: none;
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .question {
+        font-size: 1.1rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+
+      /* Answer sections */
+      .answer {
+        background: linear-gradient(145deg, #f8f9fa, #ffffff);
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin-top: 1rem;
+        border-left: 4px solid #0d6efd;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Mobile optimizations */
+      @media (max-width: 768px) {
+        .main-title {
+          font-size: 2rem;
+        }
+
+        .interview-type-toggle .btn {
+          padding: 10px 16px;
+          font-size: 0.9rem;
+        }
+
+        .instruction-card {
+          margin: 1rem;
+          padding: 1rem;
+        }
+
+        .btn-add {
+          width: 100%;
+          margin: 0.5rem 0;
+        }
+
+        .card {
+          margin: 0.5rem 0;
+        }
+      }
+
+      /* Loading animation */
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #0d6efd;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 2rem auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .action-buttons {
+        margin: 2rem 0;
+      }
+
+      .upload-container {
+        position: relative;
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        transition: all 0.3s ease;
+      }
+
+      .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .action-buttons {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .action-buttons .btn {
+          width: 100%;
+        }
+      }
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: #f8f9fa;
+        border-radius: 15px;
+        margin: 2rem 0;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+      }
+
+      .empty-state h3 {
+        color: #6c757d;
+        margin-bottom: 1rem;
+      }
+
+      .empty-state p {
+        color: #adb5bd;
+        max-width: 400px;
+        margin: 0 auto;
+      }
     </style>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=d1DTDr2A"></script>
     <script src="uploadData.js"></script>
   </head>
   <body>
-    <!-- Header buttons -->
+    <!-- Header section -->
     <div class="text-center mb-4">
-      <h1>Wat Interview Questions</h1>
-      <p class="instruction-text">
-        Хэрвээ Laptop дээрээс website үзэж байгаа бол картан дээрх үг дээр 2
-        удаа товшвол үгний дуудлага сонсогдоно.
-        <br /><br />
-        Харин гар утсан дээр тухайн үгээ select хийж байгаад 2 товшино шүү ✨
-      </p>
-      <button
-        class="btn btn-primary me-2"
-        data-bs-toggle="modal"
-        data-bs-target="#addQuestionModal"
-      >
-        Add Question
-      </button>
-      <!-- Админ хэсэгт нэмэх -->
-      <!-- <button
-        class="btn btn-warning"
-        onclick="uploadQuestionsToFirebase()"
-        title="Upload all questions to database"
-      >
-        <i class="fas fa-upload"></i> Upload Questions
-      </button> -->
+      <h1 class="main-title">WAT Interview Questions</h1>
+
+      <!-- Instruction card -->
+      <div class="instruction-card">
+        <div class="instruction-icon">
+          <i class="fas fa-info-circle"></i>
+        </div>
+        <p class="instruction-text">
+          <span class="device-specific laptop">
+            <i class="fas fa-laptop me-2"></i>
+            Laptop: Үг дээр 2 удаа товшиж дуудлага сонсох
+          </span>
+          <span class="device-specific mobile">
+            <i class="fas fa-mobile-alt me-2"></i>
+            Mobile: Үгийг сонгоод 2 удаа товшиж дуудлага сонсох
+          </span>
+        </p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-buttons d-flex gap-2 justify-content-center">
+        <button
+          class="btn btn-primary btn-add"
+          data-bs-toggle="modal"
+          data-bs-target="#addQuestionModal"
+        >
+          <i class="fas fa-plus me-2"></i>Add Question
+        </button>
+
+        <!-- CSV Upload button and input -->
+        <div class="upload-container">
+          <button
+            class="btn btn-success"
+            onclick="document.getElementById('csvFile').click()"
+          >
+            <i class="fas fa-file-upload me-2"></i>Upload CSV
+          </button>
+          <input
+            type="file"
+            id="csvFile"
+            accept=".csv"
+            style="display: none"
+            onchange="handleFileSelect(event)"
+          />
+        </div>
+      </div>
+
+      <!-- Add this small text below the buttons -->
+      <div class="text-center mt-2">
+        <small class="text-muted"
+          >CSV format: "Question","English Answer","Mongolian Answer"</small
+        >
+      </div>
     </div>
 
     <!-- Language toggle buttons -->
@@ -912,7 +1423,7 @@
           answer.style.display = isHidden ? "block" : "none";
         }
 
-        // Зөвхөн Show/Hide Answer товчны текстийг өөрчлөх
+        // Зөвхөн Show/Hide Answer товчны текстиг өөрчлөх
         if (isHidden) {
           button.textContent = "Hide Answer";
           button.classList.replace("btn-outline-primary", "btn-primary");
@@ -946,7 +1457,7 @@
           }
         }
 
-        // Асуулт бүрийн Show/Hide товчны текстиг шинэчлэх
+        // Асуулт бүрийн Show/Hide товчны текстиг шинэчэх
         const toggleBtns = document.querySelectorAll(
           ".card .btn-outline-primary, .card .btn-primary"
         );
@@ -1147,6 +1658,14 @@
 
       // Double-click handler-т мөн өөрчлөлт оруулах
       function handleTextSelection(e) {
+        // Only proceed if the clicked element is inside a question and doesn't have non-selectable class
+        if (
+          !e.target.closest(".question") ||
+          e.target.closest(".non-selectable")
+        ) {
+          return;
+        }
+
         if (!window.responsiveVoice) {
           console.error("ResponsiveVoice is not loaded!");
           return;
@@ -1250,11 +1769,8 @@
                   <button class="btn btn-outline-primary w-100" onclick="toggleAnswer(this)">
                     Show Answer
                   </button>
-                  <div class="answer en-answer selectable" style="display: none;" data-lang="en">
+                  <div class="answer en-answer" style="display: none;" data-lang="en">
                     ${formattedEnAnswer}
-                    <button class="btn btn-speak btn-outline-primary btn-sm" onclick="speakText(this, 'answer')" title="Listen">
-                      <i class="fas fa-volume-up"></i>
-                    </button>
                   </div>
                   <div class="answer mn-answer" style="display: none;" data-lang="mn">
                     ${formattedMnAnswer}
@@ -1266,7 +1782,12 @@
             container.appendChild(card);
           });
 
-          addDoubleClickListeners();
+          // Add double-click listeners only to questions
+          document
+            .querySelectorAll(".question.selectable")
+            .forEach((element) => {
+              element.addEventListener("dblclick", handleTextSelection);
+            });
         } catch (error) {
           console.error("Error creating cards:", error);
           throw error;
@@ -1299,20 +1820,94 @@
               <a
                 href="https://www.facebook.com/profile.php?id=100064952799492"
                 target="_blank"
-                class="social-link"
+                class="social-link non-selectable"
               >
-                <i class="fab fa-facebook"></i> Lhagva Dorjj
+                <i class="fab fa-facebook non-selectable"></i>
+                <span class="non-selectable">Lhagva Dorjj</span>
               </a>
             </p>
             <p class="mb-2">
-              <a href="mailto:lhagvabatulzii@gmail.com" class="social-link">
-                <i class="fas fa-envelope"></i> lhagvabatulzii@gmail.com
+              <a
+                href="mailto:lhagvabatulzii@gmail.com"
+                class="social-link non-selectable"
+              >
+                <i class="fas fa-envelope non-selectable"></i>
+                <span class="non-selectable">lhagvabatulzii@gmail.com</span>
               </a>
             </p>
-            <p class="copyright">© 2024 WAT Interview. All rights reserved.</p>
+            <p class="copyright non-selectable">
+              © 2024 WAT Interview. All rights reserved.
+            </p>
           </div>
         </div>
       </div>
     </footer>
+
+    <!-- Add this right after your Firebase scripts and before the closing </body> tag -->
+    <script>
+      // Make handleFileSelect available globally
+      async function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const fileType = file.name.split(".").pop().toLowerCase();
+        if (fileType !== "csv") {
+          alert("Please upload a CSV file");
+          return;
+        }
+
+        try {
+          const reader = new FileReader();
+
+          reader.onload = async (event) => {
+            const csvData = event.target.result;
+            const rows = csvData.split(/\r?\n/);
+
+            // Skip header row and process each data row
+            for (let i = 1; i < rows.length; i++) {
+              const row = rows[i].trim();
+              if (!row) continue;
+
+              // Split the row by commas, preserving quoted content
+              const matches = row.match(
+                /(?:^|,)("(?:[^"]*(?:""[^"]*)*)"|\d*\.?\d+|[^,]*)/g
+              );
+              if (!matches) continue;
+
+              const columns = matches.map((match) => {
+                // Remove leading comma and quotes, then trim
+                let value = match.replace(/^,/, "");
+                if (value.startsWith('"') && value.endsWith('"')) {
+                  value = value.slice(1, -1).replace(/""/g, '"');
+                }
+                return value.trim();
+              });
+
+              if (columns.length >= 3) {
+                const [question, enAnswer, mnAnswer] = columns;
+
+                if (question && enAnswer && mnAnswer) {
+                  await db.collection("questions").add({
+                    question: question,
+                    en: enAnswer,
+                    mn: mnAnswer,
+                    isProtected: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                  });
+                }
+              }
+            }
+
+            alert("CSV data uploaded successfully!");
+            location.reload(); // Refresh the page to show new questions
+          };
+
+          reader.readAsText(file, "UTF-8");
+        } catch (error) {
+          console.error("Error uploading CSV:", error);
+          alert("Error uploading CSV: " + error.message);
+        }
+      }
+    </script>
   </body>
 </html>
