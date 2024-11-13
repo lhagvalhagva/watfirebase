@@ -84,10 +84,6 @@ async function createCards() {
               <h5 class="card-title question selectable">
                 ${index + 1}. ${data.question}
                 ${protectedIcon}
-          
-                <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'question')" title="Listen">
-                  <i class="fas fa-volume-up"></i>
-                </button>
               </h5>
               <div class="btn-group">
                 <button class="btn btn-outline-secondary btn-sm" onclick="editQuestion('${
@@ -102,9 +98,16 @@ async function createCards() {
                 </button>
               </div>
             </div>
-            <button class="btn btn-outline-primary mb-2" onclick="toggleAnswer(this)">
-              Show Answer
-            </button>
+            
+            <div class="d-flex gap-2 mb-2 align-items-center">
+              <button class="btn btn-speak btn-outline-primary" style="font-size: 1.5rem; padding: 0.5rem 1rem;" onclick="speakText(this, 'question')" title="Listen">
+                <i class="fas fa-volume-up"></i>
+              </button>
+              <button class="btn btn-outline-primary" onclick="toggleAnswer(this)">
+                Show Answer
+              </button>
+            </div>
+
             <div class="answer en-answer selectable" style="display: none;" data-lang="en">
               ${formattedEnAnswer}
               <button class="btn btn-speak btn-outline-primary" onclick="speakText(this, 'answer')" title="Listen">
